@@ -1,0 +1,1 @@
+/home/jean/examples/n_bodies/target/debug/template: /home/jean/examples/n_bodies/src/main.rs /home/jean/examples/n_bodies/src/model/body.rs /home/jean/examples/n_bodies/src/model/mod.rs /home/jean/examples/n_bodies/src/model/state.rs
