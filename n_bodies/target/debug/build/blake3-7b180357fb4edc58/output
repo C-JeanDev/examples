@@ -67,7 +67,7 @@ HOST_ARFLAGS = None
 ARFLAGS_x86_64_unknown_linux_gnu = None
 ARFLAGS_x86_64-unknown-linux-gnu = None
 cargo:rustc-link-lib=static=blake3_sse2_sse41_avx2_assembly
-cargo:rustc-link-search=native=/home/jean/MEGA/examples/n_bodies/target/debug/build/blake3-7b180357fb4edc58/out
+cargo:rustc-link-search=native=/home/jean/examples/n_bodies/target/debug/build/blake3-7b180357fb4edc58/out
 cargo::rerun-if-env-changed=CARGO_FEATURE_PURE
 cargo::rerun-if-env-changed=CARGO_FEATURE_PREFER_INTRINSICS
 cargo::rustc-cfg=blake3_avx512_ffi
@@ -105,7 +105,7 @@ HOST_ARFLAGS = None
 ARFLAGS_x86_64_unknown_linux_gnu = None
 ARFLAGS_x86_64-unknown-linux-gnu = None
 cargo:rustc-link-lib=static=blake3_avx512_assembly
-cargo:rustc-link-search=native=/home/jean/MEGA/examples/n_bodies/target/debug/build/blake3-7b180357fb4edc58/out
+cargo:rustc-link-search=native=/home/jean/examples/n_bodies/target/debug/build/blake3-7b180357fb4edc58/out
 cargo::rerun-if-env-changed=CARGO_FEATURE_NEON
 cargo::rerun-if-env-changed=CARGO_FEATURE_NO_NEON
 cargo::rerun-if-env-changed=CARGO_FEATURE_PURE

@@ -1,6 +1,8 @@
 use krabmaga::engine::state::State;
 use krabmaga::engine::schedule::Schedule;
 use krabmaga::engine::location::Real2D;
+use krabmaga::rand;
+use krabmaga::Rng;
 use crate::model::body::Body;
 use std::any::Any;
 
@@ -61,7 +63,7 @@ impl NBodyState {
         // sun centered 
         bodies.push(Body {
             id: 0,
-            mass: star_mass,
+            mass: 1.0, // star_mass
             pos: Real2D { x: cx, y: cy },
             vel: Real2D { x: 0.0, y: 0.0 },
             acc: Real2D { x: 0.0, y: 0.0 },
@@ -73,6 +75,7 @@ impl NBodyState {
         let n = (num_bodies.max(2) - 1) as f32;
 
         for i in 1..num_bodies {
+            let mut rng = rand::thread_rng();
             let t = i as f32 / n;
             let r = r_min + (r_max - r_min) * t.sqrt();
             let a = i as f32 * golden_angle;
@@ -85,13 +88,14 @@ impl NBodyState {
             let vx = -a.sin() * v;
             let vy =  a.cos() * v;
 
+            let mass_size = rng.random_range(1.0..10.0);
             bodies.push(Body {
                 id: i as u32,
-                mass: 1.0,
+                mass: mass_size*100 as f32,
                 pos: Real2D { x, y },
                 vel: Real2D { x: vx, y: vy },
                 acc: Real2D { x: 0.0, y: 0.0 },
-                radius: 2.0,
+                radius: mass_size,
             });
         }
 

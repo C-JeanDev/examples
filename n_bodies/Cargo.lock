@@ -3939,6 +3939,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "n_bodies"
+version = "0.6.0"
+dependencies = [
+ "krabmaga",
+]
+
+[[package]]
 name = "naga"
 version = "27.0.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -5538,13 +5545,6 @@ dependencies = [
  "grid",
  "serde",
  "slotmap",
-]
-
-[[package]]
-name = "template"
-version = "0.6.0"
-dependencies = [
- "krabmaga",
 ]
 
 [[package]]

@@ -19,7 +19,7 @@ fn main() {
     use crate::visualization::vis_state::NBodyVis;
 
     let dim = (800.0, 600.0);
-    let state = NBodyState::new(100.0, 0.05, dim, 3);
+    let state = NBodyState::new(1000.0, 0.05, dim, 3);
 
     Visualization::default()
         .with_window_dimensions(800., 600.)
