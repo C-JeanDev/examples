@@ -2,8 +2,7 @@
 
 A 2D gravitational N-body simulation written in Rust with the
 [krABMaga](https://github.com/krABMaga/krABMaga) agent-based modeling framework
-(Bevy-based visualization). The interface and the initial configurations are
-inspired by the NetLogo
+(Bevy-based visualization). 
 [N-Bodies](https://www.netlogoweb.org/launch#http://ccl.northwestern.edu/netlogo/models/models/Sample%20Models/Chemistry%20&%20Physics/Mechanics/Unverified/N-Bodies.nlogox)
 model.
 
