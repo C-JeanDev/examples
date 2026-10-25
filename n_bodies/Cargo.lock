@@ -3942,6 +3942,7 @@ dependencies = [
 name = "n_bodies"
 version = "0.6.0"
 dependencies = [
+ "bevy_egui",
  "krabmaga",
 ]
 

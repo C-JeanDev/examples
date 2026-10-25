@@ -1,67 +1,68 @@
 use krabmaga::engine::agent::Agent;
-use krabmaga::engine::state::State;
 use krabmaga::engine::location::Real2D;
+use krabmaga::engine::state::State;
+
 use crate::model::state::NBodyState;
 
+
+//Physical Data of one body -> il lives in the state so that it can be modified and read by the menu and visualization 
+#[derive(Clone, Copy)]
+pub struct BodyData {
+    pub mass: f32,
+    pub radius: f32,
+    pub pos: Real2D,
+    pub vel: Real2D,
+    pub is_star: bool,
+}
+
+/// The agent only knows its index: it reads the snapshot `state.bodies`
+/// (positions at the beginning of the step) and writes its new data into
+/// `state.next`. `NBodyState::after_step` then publishes `next` -> `bodies`,
+/// so every body sees the same instant (synchronous update).
 #[derive(Clone, Copy)]
 pub struct Body {
     pub id: u32,
-    pub mass: f32,
-    pub pos: Real2D,
-    pub vel: Real2D,
-    pub acc: Real2D,
-    pub radius: f32,
 }
 
 impl Agent for Body {
     fn step(&mut self, state: &mut dyn State) {
-
-        // Downcast
-        let state = state.as_any_mut()
+        let s = state
+            .as_any_mut()
             .downcast_mut::<NBodyState>()
-            .expect("stato non NBodyState");
+            .expect("state is not NBodyState");
 
-        let mut total_force_x = 0.0;
-        let mut total_force_y = 0.0;
+        let i = self.id as usize;
+        let me = s.bodies[i];
+        let eps2 = s.p.softening * s.p.softening;
 
-        // Force exerted by all bodies
-        for other in &state.bodies {
-            if other.id == self.id {
+        // Acceleration = sum_j G * m_j * (r_j - r_i) / (|r|^2 + eps^2)^(3/2)
+        // (my own mass cancels out: F = m*a)
+        let mut ax = 0.0f32;
+        let mut ay = 0.0f32;
+
+        for (j, other) in s.bodies.iter().enumerate() {
+            if j == i {
                 continue;
             }
-
-            let dx = other.pos.x - self.pos.x;
-            let dy = other.pos.y - self.pos.y;
-            let dist_sq = dx * dx + dy * dy;
-            let dist = dist_sq.sqrt();
-
-            if dist < 1e-6 {
+            let dx = other.pos.x - me.pos.x;
+            let dy = other.pos.y - me.pos.y;
+            let d2 = dx * dx + dy * dy + eps2;
+            if d2 < 1e-9 {
                 continue;
             }
-
-            // Gravitational law F = G * (m1 * m2) / r^2
-            // F_x = F * (dx / dist) -> F_x = G * m1 * m2 * dx / (dist^3)
-            let force_magnitude = (state.g * self.mass * other.mass) / (dist_sq * dist);
-            
-            total_force_x += force_magnitude * dx;
-            total_force_y += force_magnitude * dy;
-
-            state.next[self.id as usize] = *self;
+            let k = s.p.g * other.mass / (d2 * d2.sqrt());
+            ax += k * dx;
+            ay += k * dy;
         }
 
-        // Acceleration (F = m * a -> a = F / m)
-        if self.mass > 0.0 {
-            self.acc.x = total_force_x / self.mass;
-            self.acc.y = total_force_y / self.mass;
-        }
+        // Semi-implicit Euler: v first, then x with the NEW v.
+        let dt = s.p.dt;
+        let mut new = me;
+        new.vel.x += ax * dt;
+        new.vel.y += ay * dt;
+        new.pos.x += new.vel.x * dt;
+        new.pos.y += new.vel.y * dt;
 
-        // Update velocity and position (Euler Method)
-        // v_{t+1} = v_t + a * dt
-        self.vel.x += self.acc.x * state.dt;
-        self.vel.y += self.acc.y * state.dt;
-
-        // p_{t+1} = p_t + v_{t+1} * dt
-        self.pos.x += self.vel.x * state.dt;
-        self.pos.y += self.vel.y * state.dt;
+        s.next[i] = new;
     }
 }
