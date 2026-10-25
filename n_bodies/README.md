@@ -9,6 +9,7 @@ model.
 
 ![](nbodies1.gif)
 ![](nbodies2.gif)
+![](nbodies3.gif)
 
 ## Features
 
@@ -36,28 +37,7 @@ cargo run --release --features visualization
 # Headless (no window, runs 1000 steps)
 cargo run --release
 ```
-
 Press **▶ Start** in the left panel to begin.
-
-## Project structure
-
-```
-n_bodies/
-├── assets/emojis/          sun.png, planet.png (64x64 sprites)
-├── Cargo.toml
-└── src/
-    ├── main.rs             entry point (headless / visualization)
-    ├── model/
-    │   ├── mod.rs
-    │   ├── body.rs         BodyData (physical data) + Body agent (physics step)
-    │   └── state.rs        NBodyState: parameters, setups, trails, step sync
-    └── visualization/
-        ├── mod.rs          body_color() shared by sprites and trails
-        ├── body_vis.rs     AgentRender: how a body is drawn
-        ├── vis_state.rs    VisualizationState: agent <-> sprite mapping, tint
-        ├── trails.rs       Bevy system that draws the trails with gizmos
-        └── menu.rs         Bevy/egui system with the control window
-```
 
 `Cargo.toml` needs the egui dependency used by the menu:
 
