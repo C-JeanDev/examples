@@ -12,7 +12,7 @@ use krabmaga::visualization::wrappers::SimulationRenderEntity;
 use crate::model::body::Body;
 use crate::model::state::NBodyState;
 use crate::visualization::body_vis::BodyVis;
-use crate::visualization::body_color;
+use crate::visualization::colors::body_color;
 
 #[derive(Clone, Resource)]
 pub struct NBodyVis;

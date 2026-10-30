@@ -2,9 +2,9 @@ mod model;
 #[cfg(any(feature = "visualization", feature = "visualization_wasm"))]
 mod visualization;
 
-/// Simulation area. The default window of Bevy is 1280x720 and krABMaga
-/// reserves 300 px on the left for its panel, so (1280-300) x 720 gives a
-/// 1:1 scale (circles stay circles).
+// Simulation area. The default window of Bevy is 1280x720 and krABMaga
+// reserves 300 px on the left for its panel, so (1280-300) x 720 gives a
+// 1:1 scale (circles stay circles).
 const DIM: (f32, f32) = (980.0, 720.0);
 
 #[cfg(not(any(feature = "visualization", feature = "visualization_wasm")))]

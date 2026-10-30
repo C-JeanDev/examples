@@ -2,7 +2,7 @@ use krabmaga::bevy::prelude::{Gizmos, Res, Vec2};
 use krabmaga::visualization::wrappers::ActiveState;
 
 use crate::model::state::NBodyState;
-use crate::visualization::body_color;
+use crate::visualization::colors::body_color;
 
 // Bevy system (runs every frame): draws every trail as a polyline
 // whose segments fade from transparent (oldest) to opaque (newest).
